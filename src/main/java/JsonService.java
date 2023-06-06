@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
 
-public class Json extends ObjectMapper {
+public class JsonService extends ObjectMapper {
 
     public static String carToJsonString(Car car)
             throws JsonProcessingException {
@@ -51,5 +51,3 @@ public class Json extends ObjectMapper {
     }
 
 }
-
-//class JacksonTest { }

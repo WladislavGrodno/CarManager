@@ -1,4 +1,3 @@
-//import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.File;
 import java.io.IOException;
 
@@ -17,21 +16,21 @@ public class Main {
         cars.add(new Car(1953, "MZKT", "4444", 1000123L));
         cars.add(new Car(1999, "Ferrari", "777", 6723L));
 
-        String jsonCar = Json.carToJsonString(cars.getMaxPricedCar());
-        String jsonCars = Json.carsToJsonString(cars);
+        String jsonCar = JsonService.carToJsonString(cars.getMaxPricedCar());
+        String jsonCars = JsonService.carsToJsonString(cars);
         System.out.println(jsonCar);
         System.out.println(jsonCars);
 
-        Json.jsonStringToCar(jsonCar).showCar();
+        JsonService.jsonStringToCar(jsonCar).showCar();
         System.out.println();
 
-        Json.jsonStringToCarList(jsonCars).showCars();
+        JsonService.jsonStringToCarList(jsonCars).showCars();
 
         File jsonFile = new File("src/test/resources/employee.json");
 
-        Json.saveJsonCarList(jsonFile, cars);
+        JsonService.saveJsonCarList(jsonFile, cars);
 
-        CarList carsNew = Json.loadJsonCarList(jsonFile);
+        CarList carsNew = JsonService.loadJsonCarList(jsonFile);
         carsNew.showCars();
 /*
         cars.getMaxPricedCar().showCar();
