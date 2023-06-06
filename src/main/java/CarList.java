@@ -1,7 +1,6 @@
 import java.util.LinkedList;
 
 public class CarList extends CarsFiltered{
-
 }
 
 class CarsShow extends  LinkedList<Car>{
