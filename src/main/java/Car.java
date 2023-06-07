@@ -53,6 +53,9 @@ public class Car {
                 getString("price"));
     }
 
+    /**
+     * Отображение объекта в консоли
+     */
     public void showCar(){
         System.out.println(this);
     }
