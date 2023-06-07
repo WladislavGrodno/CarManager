@@ -16,22 +16,25 @@ public class Main {
         cars.add(new Car(1953, "MZKT", "4444", 1000123L));
         cars.add(new Car(1999, "Ferrari", "777", 6723L));
 
-        String jsonCar = JsonService.toJsonString(cars.getMaxPricedCar());
-        String jsonCars = JsonService.toJsonString(cars);
+        String jsonCar = cars.getMaxPricedCar().toJsonString();
+        String jsonCars = cars.toJsonString();
         System.out.println(jsonCar);
         System.out.println(jsonCars);
 
-        JsonService.jsonStringToCar(jsonCar).showCar();
-        System.out.println();
+        CarList.loadJson(jsonCars).showCars();
+        Car.loadJson(jsonCar).showCar();
 
-        JsonService.jsonStringToCarList(jsonCars).showCars();
+        System.out.println();
 
         File jsonFile = new File("src/test/resources/employee.json");
 
-        JsonService.saveJson(jsonFile, cars);
+        cars.saveJson(jsonFile);
 
-        CarList carsNew = JsonService.loadJsonCarList(jsonFile);
-        carsNew.showCars();
+
+        CarList carsNew = CarList.loadJson(jsonFile);
+
+        if (carsNew != null) carsNew.showCars();
+
 /*
         cars.getMaxPricedCar().showCar();
         cars.getMinPricedCar().showCar();
