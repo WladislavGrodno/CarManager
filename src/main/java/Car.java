@@ -11,18 +11,33 @@ public class Car {
     private String model;
     private Long price;
 
+    /**
+     * Возвращает значение поля в виде строки
+     * @param field поле
+     * @return строковое выражение поля
+     */
     public String getString(String field){
-        if (field.equals("producer")) return producer;
-        if (field.equals("model")) return model;
-        if (field.equals("price"))
-            return String.format("%17d.%02d",price / 100, price % 100);
-        return null;
+        switch (field){
+            case "producer" -> {return producer;}
+            case "model" -> {return model;}
+            case "price" -> {
+                return String.format("%17d.%02d",price / 100, price % 100);
+            }
+            default -> {return null;}
+        }
     }
 
+    /**
+     * Возвращает значение поля в виде числа
+     * @param field поле
+     * @return числовое выражение поля
+     */
     public Long getNumber(String field){
-        if (field.equals("year")) return year.longValue();
-        if (field.equals("price")) return price;
-        return null;
+        switch (field){
+            case "year" -> {return year.longValue();}
+            case "price" -> {return price;}
+            default -> {return null;}
+        }
     }
 
     public String toString(){
@@ -36,6 +51,5 @@ public class Car {
     public void showCar(){
         System.out.println(this);
     }
-
 }
 

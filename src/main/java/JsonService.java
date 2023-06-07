@@ -5,49 +5,98 @@ import java.io.File;
 import java.io.IOException;
 
 public class JsonService extends ObjectMapper {
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    public static String carToJsonString(Car car)
+    /**
+     * Преобразует объект сar в строку Json
+     * @param car исходный объект
+     * @return строка в Json-формате
+     * @throws JsonProcessingException здесь могут быть прерывания
+     */
+    public static String toJsonString(Car car)
             throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(car);
     }
-    public static String carsToJsonString(CarList cars)
+
+    /**
+     * Преобразует список CarList сars в строку Json
+     * @param cars исходный список
+     * @return строка в Json-формате
+     * @throws JsonProcessingException здесь могут быть прерывания
+     */
+    public static String toJsonString(CarList cars)
             throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(cars);
     }
 
+    /**
+     * Преобразует Json-строку в объект Car
+     * @param json строка в Json-формате
+     * @return объект Car
+     * @throws JsonProcessingException здесь могут быть прерывания
+     */
     public static Car jsonStringToCar(String json)
             throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(json, Car.class);
     }
+
+    /**
+     * Преобразует Json-строку в список CarList
+     * @param json строка в Json-формате
+     * @return список CarList
+     * @throws JsonProcessingException здесь могут быть прерывания
+     */
     public static CarList jsonStringToCarList(String json)
             throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(json, CarList.class);
     }
 
-    public static void saveJsonCar(File file, Car car)
+
+    /**
+     * Сохраняет объект Car в Json-файл
+     * @param file объект File, например
+     *            new File("src/test/resources/employee.json")
+     * @param car объект Car
+     * @throws IOException здесь могут быть прерывания
+     */
+    public static void saveJson(File file, Car car)
             throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.writeValue(file, car);
     }
-    public static void saveJsonCarList(File file, CarList cars)
+
+    /**
+     * Сохраняет список CarList в Json-файл
+     * @param file объект File, например
+     *            new File("src/test/resources/employee.json")
+     * @param cars список CarList
+     * @throws IOException здесь могут быть прерывания
+     */
+    public static void saveJson(File file, CarList cars)
             throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.writeValue(file, cars);
     }
 
+    /**
+     * Загружает объект Car из Json-файла
+     * @param file объект File, например
+     *            new File("src/test/resources/employee.json")
+     * @return объект Car
+     * @throws IOException здесь могут быть прерывания
+     */
     public static Car loadJsonCar(File file)
             throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(file, Car.class);
     }
+
+    /**
+     * Загружает список CarList из Json-файла
+     * @param file объект File, например
+     *       new File("src/test/resources/employee.json")
+     * @return список CarList
+     * @throws IOException здесь могут быть прерывания
+     */
     public static CarList loadJsonCarList(File file)
             throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(file, CarList.class);
     }
-
 }
