@@ -50,14 +50,14 @@ public class CarListServices extends LinkedList<Car> {
      * @param field поле сортировки
      * @return отсортированный список
      */
-    public CarListServices sort(String field){
+    public CarList sort(String field){
         if (get(0).getNumber(field) != null)
             // сортировать по численному значению поля
             sort(java.util.Comparator.comparing(car -> car.getNumber(field)));
         else if (get(0).getString(field) != null)
             // сортировать по строковому значению поля
             sort(java.util.Comparator.comparing(car -> car.getString(field)));
-        return (CarListServices) this;
+        return (CarList) this;
     }
 
     /**
@@ -66,8 +66,8 @@ public class CarListServices extends LinkedList<Car> {
      * @param ethanol эталонная строка
      * @return отфильтрованный список
      */
-    public CarListServices filter(String field, String ethanol){
-        CarListServices newList = new CarListServices();
+    public CarList filter(String field, String ethanol){
+        CarList newList = new CarList();
         for (Car car : this) {
             if (car.getString(field).equals(ethanol)) newList.add(car);
         }
@@ -81,8 +81,8 @@ public class CarListServices extends LinkedList<Car> {
      * @param max максимально допустимое значение
      * @return отфильтрованный список
      */
-    public CarListServices filter(String field, Long min, Long max){
-        CarListServices newList = new CarListServices();
+    public CarList filter(String field, Long min, Long max){
+        CarList newList = new CarList();
         for (Car car : this) {
             Long n = car.getNumber(field);
             if (n >= min && n <= max) newList.add(car);

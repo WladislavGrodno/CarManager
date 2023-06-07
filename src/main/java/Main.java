@@ -35,7 +35,7 @@ public class Main {
 
         if (carsNew != null) carsNew.showCars();
 
-/*
+
         cars.getMaxPricedCar().showCar();
         cars.getMinPricedCar().showCar();
 
@@ -51,7 +51,7 @@ public class Main {
         cars.filter("producer", "BelAZ").showCars();
         cars.filter("price", 1200L, 10000L).showCars();
 
- */
+
 
     }
 
