@@ -1,4 +1,6 @@
-public class CarsServices extends CarsShow{
+import java.util.LinkedList;
+
+public class CarsServices extends LinkedList<Car> {
 
     public Car getMaxPricedCar(){
         return getExtremeCar("price", (o1, o2) -> (o1 < o2));
@@ -18,29 +20,24 @@ public class CarsServices extends CarsShow{
         }
         return ethanolCar;
     }
-    public CarList sort(String field){
+    public CarsServices sort(String field){
         if (get(0).getNumber(field) != null)
             sort(java.util.Comparator.comparing(car -> car.getNumber(field)));
-            /*
-            sort((car1, car2) ->
-                    Long.signum(car1.getNumber(field) - car2.getNumber(field))
-            );
-             */
         else if (get(0).getString(field) != null)
             sort(java.util.Comparator.comparing(car -> car.getString(field)));
-        return (CarList) this;
+        return (CarsServices) this;
     }
 
-    public CarList filter(String field, String ethanol){
-        CarList newList = new CarList();
+    public CarsServices filter(String field, String ethanol){
+        CarsServices newList = new CarsServices();
         for (Car car : this) {
             if (car.getString(field).equals(ethanol)) newList.add(car);
         }
         return newList;
     }
 
-    public CarList filter(String field, Long min, Long max){
-        CarList newList = new CarList();
+    public CarsServices filter(String field, Long min, Long max){
+        CarsServices newList = new CarsServices();
         for (Car car : this) {
             Long n = car.getNumber(field);
             if (n >= min && n <= max) newList.add(car);
