@@ -4,6 +4,9 @@ import java.io.IOException;
 public class Main {
 
     public static void main(String[] args) throws IOException {
+
+        System.out.println("Test SSH");
+
         CarList cars = new CarList();
         cars.add(new Car(1973, "Fiat", "123", 123L));
         cars.add(new Car(1963, "UAZ", "Buhanka", 1230L));
