@@ -1,11 +1,14 @@
+package org.cars.services;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.cars.model.Car;
+import org.cars.model.CarList;
 
 import java.io.File;
 import java.io.IOException;
 
-public class JsonService {
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+public class JsonService extends ObjectMapper{
 
     /**
      * Преобразует объект сar в строку Json
@@ -13,90 +16,90 @@ public class JsonService {
      * @return строка в Json-формате
      * @throws JsonProcessingException здесь могут быть прерывания
      */
-    public static String toJsonString(Car car)
+    public String toJsonString(Car car)
             throws JsonProcessingException {
-        return objectMapper.writeValueAsString(car);
+        return writeValueAsString(car);
     }
 
     /**
-     * Преобразует список CarList сars в строку Json
+     * Преобразует список org.example.Model.CarList сars в строку Json
      * @param cars исходный список
      * @return строка в Json-формате
      * @throws JsonProcessingException здесь могут быть прерывания
      */
-    public static String toJsonString(CarList cars)
+    public String toJsonString(CarList cars)
             throws JsonProcessingException {
-        return objectMapper.writeValueAsString(cars);
+        return writeValueAsString(cars);
     }
 
     /**
-     * Преобразует Json-строку в объект Car
+     * Преобразует Json-строку в объект org.example.Model.Car
      * @param json строка в Json-формате
-     * @return объект Car
+     * @return объект org.example.Model.Car
      * @throws JsonProcessingException здесь могут быть прерывания
      */
-    public static Car jsonStringToCar(String json)
+    public Car jsonStringToCar(String json)
             throws JsonProcessingException {
-        return objectMapper.readValue(json, Car.class);
+        return readValue(json, Car.class);
     }
 
     /**
-     * Преобразует Json-строку в список CarList
+     * Преобразует Json-строку в список org.example.Model.CarList
      * @param json строка в Json-формате
-     * @return список CarList
+     * @return список org.example.Model.CarList
      * @throws JsonProcessingException здесь могут быть прерывания
      */
-    public static CarList jsonStringToCarList(String json)
+    public CarList jsonStringToCarList(String json)
             throws JsonProcessingException {
-        return objectMapper.readValue(json, CarList.class);
+        return readValue(json, CarList.class);
     }
 
 
     /**
-     * Сохраняет объект Car в Json-файл
+     * Сохраняет объект org.example.Model.Car в Json-файл
      * @param file объект File, например
      *            new File("src/test/resources/employee.json")
-     * @param car объект Car
+     * @param car объект org.example.Model.Car
      * @throws IOException здесь могут быть прерывания
      */
-    public static void saveJson(File file, Car car)
+    public void saveJson(File file, Car car)
             throws IOException {
-        objectMapper.writeValue(file, car);
+        writeValue(file, car);
     }
 
     /**
-     * Сохраняет список CarList в Json-файл
+     * Сохраняет список org.example.Model.CarList в Json-файл
      * @param file объект File, например
      *            new File("src/test/resources/employee.json")
-     * @param cars список CarList
+     * @param cars список org.example.Model.CarList
      * @throws IOException здесь могут быть прерывания
      */
-    public static void saveJson(File file, CarList cars)
+    public void saveJson(File file, CarList cars)
             throws IOException {
-        objectMapper.writeValue(file, cars);
+        writeValue(file, cars);
     }
 
     /**
-     * Загружает объект Car из Json-файла
+     * Загружает объект org.example.Model.Car из Json-файла
      * @param file объект File, например
      *            new File("src/test/resources/employee.json")
-     * @return объект Car
+     * @return объект org.example.Model.Car
      * @throws IOException здесь могут быть прерывания
      */
-    public static Car loadJsonCar(File file)
+    public Car loadJsonCar(File file)
             throws IOException {
-        return objectMapper.readValue(file, Car.class);
+        return readValue(file, Car.class);
     }
 
     /**
-     * Загружает список CarList из Json-файла
+     * Загружает список org.example.Model.CarList из Json-файла
      * @param file объект File, например
      *       new File("src/test/resources/employee.json")
-     * @return список CarList
+     * @return список org.example.Model.CarList
      * @throws IOException здесь могут быть прерывания
      */
-    public static CarList loadJsonCarList(File file)
+    public CarList loadJsonCarList(File file)
             throws IOException {
-        return objectMapper.readValue(file, CarList.class);
+        return readValue(file, CarList.class);
     }
 }

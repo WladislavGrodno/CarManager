@@ -1,7 +1,11 @@
+package org.cars.model;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.cars.services.CarServices;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.cars.services.JsonService;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,11 +13,12 @@ import java.io.IOException;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Car {
+public class Car extends CarServices {
     private Integer year = -1;
     private String producer = "";
     private String model = "";
     private Long price = 0L;
+
 
     /**
      * Возвращает значение поля в виде строки
@@ -66,7 +71,8 @@ public class Car {
      */
     public String toJsonString(){
         try {
-            return JsonService.toJsonString(this);
+            JsonService json = new JsonService();
+            return json.toJsonString(this);
         }
         catch (JsonProcessingException e){
             System.out.println(e.getMessage());
@@ -77,11 +83,12 @@ public class Car {
     /**
      * Импорт списка из Json-строки
      * @param jsonCar Json-строка
-     * @return объект Car
+     * @return объект org.example.Model.Car
      */
     public static Car loadJson(String jsonCar){
         try {
-            return JsonService.jsonStringToCar(jsonCar);
+            JsonService json = new JsonService();
+            return json.jsonStringToCar(jsonCar);
         }
         catch (JsonProcessingException e){
             System.out.println(e.getMessage());
@@ -92,11 +99,12 @@ public class Car {
     /**
      * Загрузка списка из Json-файла
      * @param file Json-файл
-     * @return объект Car
+     * @return объект org.example.Model.Car
      */
     public static Car loadJson(File file){
         try {
-            return JsonService.loadJsonCar(file);
+            JsonService json = new JsonService();
+            return json.loadJsonCar(file);
         }
         catch (IOException e){
             System.out.println(e.getMessage());
@@ -110,13 +118,13 @@ public class Car {
      */
     public void saveJson(File file){
         try {
-            JsonService.saveJson(file, this);
+            JsonService json = new JsonService();
+            json.saveJson(file, this);
         }
         catch (IOException e){
             System.out.println(e.getMessage());
         }
     }
-
 
 }
 
