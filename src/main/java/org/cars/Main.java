@@ -1,8 +1,9 @@
 package org.cars;
 
-import org.cars.model.Car;
-import org.cars.model.CarList;
-import org.cars.services.CarListServices;
+import org.cars.imp.CarLinkedList;
+import org.cars.imp.FileJson;
+import org.cars.imp.CarServiceImp;
+import org.cars.imp.FileTxt;
 import org.cars.services.TestCarList;
 
 import java.io.File;
@@ -12,49 +13,36 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        //System.out.println("Test SSH");
-
-        CarList cars = new TestCarList();
-
-        String jsonCar = cars.getMaxPricedCar().toJsonString();
-        String jsonCars = cars.toJsonString();
-        System.out.println(jsonCar);
-        System.out.println(jsonCars);
-
-        //CarList.
-        //CarListServices.
-        //CarList carsLoaded =
-        cars.loadJson(jsonCars).showCars();
-
-        //jsonCars..loadJson(jsonCars).showCars();
-        Car.loadJson(jsonCar).showCar();
-
-        System.out.println();
-
-        File jsonFile = new File("src/test/resources/employee.json");
-
-        cars.saveJson(jsonFile);
+        CarLinkedList carsJson = new TestCarList(new FileJson());
+        CarServiceImp carServiceImp = new CarServiceImp(new FileJson());
+//        CarLinkedList carsJson = new TestCarList(new FileTxt());
+//        CarServiceImp carServiceImp = new CarServiceImp(new FileTxt());
 
 
-        CarList carsNew = cars.loadJson(jsonFile);
+        File jsonFile = new File("src/test/resources/employee.txt");
+
+        carsJson.save(jsonFile);
+
+
+        CarLinkedList carsNew = carsJson.load(jsonFile);
 
         if (carsNew != null) carsNew.showCars();
 
 
-        cars.getMaxPricedCar().showCar();
-        cars.getMinPricedCar().showCar();
+        System.out.println(carsJson.getMaxPricedCar());
+        System.out.println(carsJson.getMinPricedCar());
 
         System.out.println();
 
-        cars.sort("producer").showCars();
+        carsJson.sort("maker").showCars();
 
         System.out.println();
 
-        cars.sort("price").showCars();
+        carsJson.sort("price").showCars();
 
-        cars.filter("producer", "UAZ").showCars();
-        cars.filter("producer", "BelAZ").showCars();
-        cars.filter("price", 1200L, 10000L).showCars();
+        carsJson.filter("maker", "UAZ").showCars();
+        carsJson.filter("maker", "BelAZ").showCars();
+        carsJson.filter("price", 1200L, 10000L).showCars();
 
 
 
