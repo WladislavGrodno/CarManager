@@ -4,6 +4,7 @@ import org.cars.imp.CarLinkedList;
 import org.cars.imp.FileJson;
 import org.cars.imp.CarServiceImp;
 import org.cars.imp.FileTxt;
+import org.cars.services.FileService;
 import org.cars.services.TestCarList;
 
 import java.io.File;
@@ -13,8 +14,9 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        CarLinkedList carsJson = new TestCarList(new FileJson());
-        CarServiceImp carServiceImp = new CarServiceImp(new FileJson());
+        FileService<CarLinkedList> fileService = new FileJson();
+        CarLinkedList carsJson = new TestCarList(fileService);
+        CarServiceImp carServiceImp = new CarServiceImp(fileService);
 //        CarLinkedList carsJson = new TestCarList(new FileTxt());
 //        CarServiceImp carServiceImp = new CarServiceImp(new FileTxt());
 
