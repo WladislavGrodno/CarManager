@@ -1,14 +1,19 @@
 package com.education.project.cars.manager.carsmanager;
 
+import com.education.project.cars.manager.carsmanager.service.*;
 import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import service.*;
+
 
 @Service
 public class Main {
-    private CarListConstructor carListConstructor = new CarListConstructor();
-    public DBPoolService source = new DBPoolService();
-    private DialogMenuService dialogMenuService = new DialogMenuService();
+    @Autowired
+    private CarListConstructor carListConstructor;// = new CarListConstructor();
+    @Autowired
+    public DBPoolService source;// = new DBPoolService();
+    @Autowired
+    private DialogMenuService dialogMenuService;// = new DialogMenuService();
 
     @PostConstruct
     public void run() {
