@@ -11,11 +11,11 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Car {
 
-    private Long id = -1L;
+    private Long idCar = -1L;
     private Integer year = -1;
-    private String brand = "";
-    private String model = "";
-    private Integer cost = 0;
+    private String brand = "empty";
+    private String model = "empty";
+    private Integer cost = -1;
 
     public Car(Integer year, String brand, String model, Integer cost) {
         this.year = year;
@@ -26,11 +26,16 @@ public class Car {
 
     public String toString() {
         if (year == -1) return "";
-        return String.format("id = %20d %15s: %15s, %5d. %17d",
-                id,
+        return String.format("{" +
+                        "\"idCar\": %d, " +
+                        "\"year\": %d, " +
+                        "\"brand\": \"%s\", " +
+                        "\"model\": \"%s\", " +
+                        "\"cost\": %d}",
+                idCar,
+                year,
                 brand,
                 model,
-                year,
                 cost
         );
     }

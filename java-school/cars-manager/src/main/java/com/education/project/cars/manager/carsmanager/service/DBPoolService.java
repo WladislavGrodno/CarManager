@@ -1,8 +1,8 @@
 package com.education.project.cars.manager.carsmanager.service;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.postgresql.ds.PGPoolingDataSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+@Slf4j
 @Getter
 @Service
 public class DBPoolService {
@@ -47,27 +48,6 @@ public class DBPoolService {
     private void initConnection(){
         setupPGPoolingDataSource();
         status = setConnection();
-
-        /*
-        System.out.println("Connection status is " + status);
-
-        try {
-            rs = statement.executeQuery(
-                    "SELECT * FROM garage " +
-                            ";");
-            while (rs.next()) {
-                System.out.print(rs.getInt("Year"));
-                System.out.print(rs.getString("Brand"));
-                System.out.print(rs.getString("Model"));
-                System.out.println(rs.getInt("Cost"));
-            }
-        } catch (SQLException e) {
-            System.out.println("Can't reach next row");
-            System.out.println(e.getMessage());
-        }
-
-         */
-
     }
 
     private void setupPGPoolingDataSource(){
@@ -96,26 +76,25 @@ public class DBPoolService {
             Class.forName("org.postgresql.Driver");
         }
         catch (ClassNotFoundException e){
-            System.out.println(e.getMessage());
+            log.error("{\"error\": \"{}\"}", e.getMessage());
             return -1;//неподключен драйвер
         }
-
         try {
             connection = ds.getConnection();
         }
         catch (SQLException e){
-            System.out.println(e.getMessage());
+            log.error("{\"error\": \"{}\", \"state\": \"{}\"}",
+                    e.getMessage(), e.getSQLState());
             return -2;//нет подключения к базе данных
         }
-
         try {
             statement = connection.createStatement();
         }
         catch (SQLException e){
-            System.out.println(e.getMessage());
+            log.error("{\"error\": \"{}\", \"state\": \"{}\"}",
+                    e.getMessage(), e.getSQLState());
             return  -3;//не смог сотворить statement
         }
-
         return 0;
     }
 
@@ -125,19 +104,23 @@ public class DBPoolService {
     public void createDB(String tableName){
         //ToDo: add indexes for optimal work?
         try {
-            statement.execute(
-                    "CREATE TABLE if not exists " + tableName + " (" +
-                    "Id SERIAL PRIMARY KEY NOT NULL, " +
-                    "Year INT NOT NULL, " +
-                    "Brand varchar(30) NOT NULL CHECK(trim(brand)!=''), " +
-                    "Model varchar(30) NOT NULL CHECK(trim(model)!=''), " +
-                    "Cost INT NOT NULL);");
+            statement.execute(String.format(
+                    "CREATE TABLE if not exists %s (" +
+                            "Id SERIAL PRIMARY KEY NOT NULL, " +
+                            "Idc BIGINT UNIQUE NOT NULL, " +
+                            "Year INT NOT NULL, " +
+                            "Brand varchar(30) NOT NULL " +
+                            "CHECK(trim(brand)!=''), " +
+                            "Model varchar(30) NOT NULL " +
+                            "CHECK(trim(model)!=''), " +
+                            "Cost INT NOT NULL);", tableName));
         } catch (SQLException e) {
             switch (e.getSQLState()){
                 case "42P07" -> status = 1;// already exist
                 default -> {
+                    log.error("{\"error\": \"{}\", \"state\": \"{}\"}",
+                            e.getMessage(), e.getSQLState());
                     status = -4;
-                    System.out.println(e.getMessage());
                 }
             }
         }
@@ -152,34 +135,35 @@ public class DBPoolService {
                     "DROP TABLE " + tableName);
         } catch (SQLException e) {
             switch (e.getSQLState()) {
-                case "42P01" -> System.out.println("таблица " + tableName +
-                        " уже не существует");
-                default -> System.out.println(e.getMessage());
+                case "42P01" -> System.out.printf(
+                        "таблица %s уже не существует", tableName);
+                default -> log.error("{\"error\": \"{}\", \"state\": \"{}\"}",
+                        e.getMessage(), e.getSQLState());
             }
         }
     }
 
-    /**
-     *
-     * @param query
-     */
+
     public void writeDB(String query){
         try {
             statement.execute(query);
             status = 0;
         } catch (SQLException e) {
-            status = -7;
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void setStatement(String query){
-        try {
-            statement.execute(query);
-            status = 0;
-        } catch (SQLException e) {
-            status = -5;
-            System.out.println(e.getMessage());
+            switch (e.getSQLState()) {
+                case "23502" -> {   //Null value error
+                    log.error("{\"error\": \"{}\", \"state\": \"{}\"}",
+                            e.getMessage(), e.getSQLState());
+                    status = -7;
+                }
+                case "23505" -> {   //Use another key
+                    status = -8;
+                }
+                default -> {    //unknown error
+                    log.error("{\"error\": \"{}\", \"state\": \"{}\"}",
+                            e.getMessage(), e.getSQLState());
+                    status = -5;
+                }
+            }
         }
     }
 
@@ -193,8 +177,9 @@ public class DBPoolService {
         try {
             rs = statement.executeQuery(query);
         } catch (SQLException e) {
+            log.error("{\"error\": \"{}\", \"state\": \"{}\"}",
+                    e.getMessage(), e.getSQLState());
             status = -6;
-            System.out.println(e.getMessage());
         }
     }
 
@@ -206,23 +191,20 @@ public class DBPoolService {
             if (statement != null) statement.close();
         }
         catch (Exception e) {
-            System.out.println(e.getMessage());
+            log.error("{\"error\": \"{}\"}", e.getMessage());
         }
-
         try {
             if (connection != null) connection.close();
         }
         catch (Exception e) {
-            System.out.println(e.getMessage());
+            log.error("{\"error\": \"{}\"}", e.getMessage());
         }
-
         try {
             if(rs != null) rs.close();
         }
         catch (Exception e) {
-            System.out.println(e.getMessage());
+            log.error("{\"error\": \"{}\"}", e.getMessage());
         }
-
         System.out.println("\nDatabase connections were closed\n");
     }
 
@@ -232,10 +214,10 @@ public class DBPoolService {
             case -2 -> System.out.println("No database");
             case -3 -> System.out.println("No statement");
             case -4 -> System.out.println("Unknown status of table 'Garage'");
-            case -5 -> System.out.println("setStatement error");
+            case -5 -> System.out.println("writeDB error");
             case -6 -> System.out.println("readDB error");
-            case -7 ->
-                    System.out.println("Can't feel new empty table 'Garage'");
+            case -7 -> System.out.println("Trying empty value insertion");
+            case -8 -> System.out.println("Already existing key insertion");
         }
     }
 }

@@ -4,20 +4,19 @@ import com.education.project.cars.manager.carsmanager.LambdaInterface.IntGetter;
 import com.education.project.cars.manager.carsmanager.model.Car;
 
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
 
+@Slf4j
 @Setter
 @Service
 public class CarServiceDBAltImp implements CarService{
+    @Autowired
     private DBPoolService source;
-    private String table;
-
-    public CarServiceDBAltImp(DBPoolService source, String table) {
-        this.source = source;
-        this.table = table;
-    }
+    private String table = "Garage";
 
     private Car getCarFromDBRow(){
         try {
@@ -29,7 +28,8 @@ public class CarServiceDBAltImp implements CarService{
             );
         }
         catch (SQLException e){
-            System.out.println(e.getMessage());
+            log.error("{\"error\": \"{}\", \"state\": \"{}\"}",
+                    e.getMessage(), e.getSQLState());
             return null;
         }
     }
@@ -60,8 +60,8 @@ public class CarServiceDBAltImp implements CarService{
                 cars.add(car);
             }
         } catch (SQLException e) {
-            System.out.println("Can't reach next row");
-            System.out.println(e.getMessage());
+            log.error("{\"error\": \"{}\", \"state\": \"{}\"}",
+                    e.getMessage(), e.getSQLState());
         }
         return cars;
     }
@@ -87,8 +87,8 @@ public class CarServiceDBAltImp implements CarService{
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Can't reach next row");
-            System.out.println(e.getMessage());
+            log.error("{\"error\": \"{}\", \"state\": \"{}\"}",
+                    e.getMessage(), e.getSQLState());
         }
         return cars;
     }
@@ -144,7 +144,6 @@ public class CarServiceDBAltImp implements CarService{
             int startPrice, int endPrice, CarList list) {
         return filter("Cost", startPrice, endPrice);
     }
-
 
     /**
      * Сортировка списка по заданному строковому полю

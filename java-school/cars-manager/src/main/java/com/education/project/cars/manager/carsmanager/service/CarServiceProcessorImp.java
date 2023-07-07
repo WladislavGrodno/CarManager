@@ -67,10 +67,10 @@ public class CarServiceProcessorImp implements CarService{
     }
 
     public void out(CarList list){
-        outService.fileWriter(list, fileDestination);
+        outService.carListWriter(list, fileDestination);
     }
     public CarList in(){
-        return inService.fileReader(fileSource);
+        return inService.carListReader(fileSource);
     }
 
 

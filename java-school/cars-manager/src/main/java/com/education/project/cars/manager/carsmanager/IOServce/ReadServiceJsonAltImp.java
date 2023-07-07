@@ -1,5 +1,6 @@
 package com.education.project.cars.manager.carsmanager.IOServce;
 
+import com.education.project.cars.manager.carsmanager.model.Car;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 import com.education.project.cars.manager.carsmanager.service.CarList;
@@ -7,12 +8,12 @@ import com.education.project.cars.manager.carsmanager.service.CarList;
 import java.io.IOException;
 
 @Service
-public class ReadServiceJsonAltImp
-        extends ObjectMapper implements ReadService{
+public class ReadServiceJsonAltImp implements ReadService{
+    private final ObjectMapper objectMapper = new ObjectMapper();
     @Override
-    public CarList fileReader(String file) {
+    public CarList carListReader(String file) {
         try {
-            return readValue(file, CarList.class);
+            return objectMapper.readValue(file, CarList.class);
         }
         catch (IOException e){
             System.out.print("bad " + file);
@@ -21,4 +22,8 @@ public class ReadServiceJsonAltImp
         }
     }
 
+    @Override
+    public Car carReader(Long idc, String fileName) {
+        return null;
+    }
 }

@@ -1,0 +1,11 @@
+07.07.2023 18:17:26.055 [main] INFO   c.e.p.c.m.c.CarsManagerApplication - Starting CarsManagerApplication using Java 20.0.1 with PID 37139 (/home/wladislav/IdeaProjects/java-school/cars-manager/target/classes started by wladislav in /home/wladislav/IdeaProjects/java-school/cars-manager)
+07.07.2023 18:17:26.057 [main] INFO   c.e.p.c.m.c.CarsManagerApplication - No active profile set, falling back to 1 default profile: "default"
+07.07.2023 18:17:26.946 [main] INFO   o.s.b.w.e.t.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+07.07.2023 18:17:26.953 [main] INFO   o.a.c.h.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+07.07.2023 18:17:26.955 [main] INFO   o.a.c.c.StandardService - Starting service [Tomcat]
+07.07.2023 18:17:26.955 [main] INFO   o.a.c.c.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.10]
+07.07.2023 18:17:27.019 [main] INFO   o.a.c.c.C.[.[.[/] - Initializing Spring embedded WebApplicationContext
+07.07.2023 18:17:27.020 [main] INFO   o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 905 ms
+07.07.2023 18:17:27.848 [main] INFO   o.a.c.h.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+07.07.2023 18:17:27.861 [main] INFO   o.s.b.w.e.t.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+07.07.2023 18:17:27.869 [main] INFO   c.e.p.c.m.c.CarsManagerApplication - Started CarsManagerApplication in 2.209 seconds (process running for 2.788)
